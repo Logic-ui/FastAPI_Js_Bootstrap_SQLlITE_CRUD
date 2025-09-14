@@ -1,0 +1,79 @@
+from fastapi import FastAPI, Request, Form, Depends, HTTPException, status
+from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import Session
+
+from database import Base, engine, get_db_session
+from models import Task
+
+app = FastAPI()
+
+# Mount static files and templates
+app.mount("/static", StaticFiles(directory="./static"), name="static")
+templates = Jinja2Templates(directory="./templates")
+
+# Create DB tables
+Base.metadata.create_all(bind=engine)
+
+
+@app.get("/")
+def read_tasks(request: Request, db: Session = Depends(get_db_session)):
+    tasks = db.query(Task).order_by(Task.id.desc()).all()
+    return templates.TemplateResponse("index.html", {"request": request, "tasks": tasks})
+
+
+@app.get("/create")
+def create_task_form(request: Request):
+    return templates.TemplateResponse("create.html", {"request": request})
+
+
+@app.post("/create")
+def create_task(
+    request: Request,
+    title: str = Form(...),
+    description: str = Form(""),
+    db: Session = Depends(get_db_session),
+):
+    new_task = Task(title=title, description=description)
+    db.add(new_task)
+    db.commit()
+    db.refresh(new_task)
+    return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+
+
+@app.get("/edit/{task_id}")
+def edit_task_form(request: Request, task_id: int, db: Session = Depends(get_db_session)):
+    task = db.query(Task).filter(Task.id == task_id).first()
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
+    return templates.TemplateResponse("edit.html", {"request": request, "task": task})
+
+
+@app.post("/edit/{task_id}")
+def edit_task(
+    request: Request,
+    task_id: int,
+    title: str = Form(...),
+    description: str = Form(""),
+    completed: str = Form(None),
+    db: Session = Depends(get_db_session),
+):
+    task = db.query(Task).filter(Task.id == task_id).first()
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
+    task.title = title
+    task.description = description
+    task.completed = bool(completed)
+    db.commit()
+    return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+
+
+@app.post("/delete/{task_id}")
+def delete_task(task_id: int, db: Session = Depends(get_db_session)):
+    task = db.query(Task).filter(Task.id == task_id).first()
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
+    db.delete(task)
+    db.commit()
+    return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)

@@ -1,0 +1,136 @@
+/* Reset & base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #ece9e6, #ffffff);
+  color: #2d3748;
+  line-height: 1.6;
+}
+
+/* Section container */
+section {
+  max-width: 1000px;
+  margin: 50px auto;
+  background: #fff;
+  padding: 25px 35px;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-in-out;
+}
+
+section:hover {
+  transform: translateY(-3px);
+}
+
+/* Headings */
+h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a202c;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+thead {
+  background: #2b6cb0;
+  color: #fff;
+}
+
+thead th {
+  padding: 14px 18px;
+  text-align: left;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+tbody tr {
+  border-bottom: 1px solid #edf2f7;
+  transition: background 0.2s ease-in-out;
+}
+
+tbody tr:hover {
+  background: #f7fafc;
+}
+
+tbody td {
+  padding: 14px 18px;
+  font-size: 15px;
+}
+
+/* Status badges */
+.status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.status-yes {
+  background: #c6f6d5;
+  color: #22543d;
+}
+
+.status-no {
+  background: #fed7d7;
+  color: #742a2a;
+}
+
+/* Links & actions */
+a {
+  color: #3182ce;
+  text-decoration: none;
+  font-weight: 600;
+  margin-right: 10px;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: #2c5282;
+}
+
+button {
+  background: #e53e3e;
+  border: none;
+  padding: 7px 14px;
+  color: white;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: #c53030;
+}
+
+/* Empty message */
+p {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 16px;
+  color: #4a5568;
+}
+
+p a {
+  color: #38a169;
+  font-weight: bold;
+}
+
+p a:hover {
+  text-decoration: underline;
+}

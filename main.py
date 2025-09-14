@@ -69,11 +69,11 @@ def edit_task(
     return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
 
 
-@app.post("/delete/{task_id}")
+@app.delete("/delete/{task_id}")
 def delete_task(task_id: int, db: Session = Depends(get_db_session)):
     task = db.query(Task).filter(Task.id == task_id).first()
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     db.delete(task)
     db.commit()
-    return RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+    return {"message": "Task deleted"}

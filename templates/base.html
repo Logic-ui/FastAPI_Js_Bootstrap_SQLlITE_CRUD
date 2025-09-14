@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}" />
     <title>FastAPI CRUD</title>
   </head>
   <body>
@@ -13,7 +13,22 @@
     </header>
     <main>{% block content %}{% endblock %}</main>
     <footer>
-      <small>Built with FastAPI</small>
+      <div class="footer-content">
+        <p>
+          Built with
+          <span style="color: #009688; font-weight: bold">FastAPI</span> 🚀
+        </p>
+        <p>
+          <a href="https://github.com/Logic-ui" target="_blank">GitHub</a>
+          |
+          <a
+            href="https://www.linkedin.com/in/usman-ali-b0603124a/"
+            target="_blank"
+            >LinkedIn</a
+          >
+        </p>
+        <small>&copy; 2025 Usman Ali. All rights reserved.</small>
+      </div>
     </footer>
   </body>
 </html>

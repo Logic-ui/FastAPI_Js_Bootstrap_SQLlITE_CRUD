@@ -58,7 +58,7 @@ nav a:hover::after {
 }
 
 main {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 30px auto;
   padding: 20px;
   background: #fff;

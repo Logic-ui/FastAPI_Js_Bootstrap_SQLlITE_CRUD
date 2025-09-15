@@ -245,3 +245,28 @@ footer small {
   margin-top: 8px;
   color: #aaa;
 }
+
+.btn-download {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn-download:hover {
+  background: linear-gradient(135deg, #66BB6A, #388E3C);
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 12px rgba(0,0,0,0.2);
+}
+
+.btn-download:active {
+  transform: translateY(1px);
+  box-shadow: 0px 3px 6px rgba(0,0,0,0.2)
+}

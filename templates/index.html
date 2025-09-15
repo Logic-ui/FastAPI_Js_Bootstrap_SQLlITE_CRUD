@@ -1,4 +1,5 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% block content %}
 <section>
   <h2>Tasks</h2>
   {% if tasks %}
@@ -29,33 +30,56 @@
         <td>
           <a href="/edit/{{ task.id }}">Edit</a>
           <button onclick="deleteTask({{ task.id }})">Delete</button>
-
-          <script>
-            function deleteTask(taskId) {
-              if (confirm("Are you sure you want to delete this task?")) {
-                fetch(`/delete/${taskId}`, {
-                  method: "DELETE", // or POST if your FastAPI route expects POST
-                })
-                  .then((response) => {
-                    if (response.ok) {
-                      // Reload page or remove the row from DOM
-                      location.reload();
-                    } else {
-                      alert("Error deleting task");
-                    }
-                  })
-                  .catch((error) => console.error("Error:", error));
-              }
-            }
-          </script>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
+
+  <!-- Pagination -->
+  {% if total_pages > 1 %}
+  <nav class="pagination">
+    <ul>
+      {% if page > 1 %}
+      <li><a href="/?page={{ page - 1 }}">⏮ Prev</a></li>
+      {% endif %}
+
+      {% for p in range(1, total_pages + 1) %}
+        {% if p == page %}
+          <li class="active"><span>{{ p }}</span></li>
+        {% else %}
+          <li><a href="/?page={{ p }}">{{ p }}</a></li>
+        {% endif %}
+      {% endfor %}
+
+      {% if page < total_pages %}
+      <li><a href="/?page={{ page + 1 }}">Next ⏭</a></li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+
   <a class="btn-download" href="/download/pdf">📄 Download PDF</a>
   {% else %}
   <p>No tasks yet — <a href="/create">create one</a>.</p>
   {% endif %}
 </section>
+
+<script>
+  function deleteTask(taskId) {
+    if (confirm("Are you sure you want to delete this task?")) {
+      fetch(`/delete/${taskId}`, {
+        method: "DELETE",
+      })
+        .then((response) => {
+          if (response.ok) {
+            location.reload();
+          } else {
+            alert("Error deleting task");
+          }
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+  }
+</script>
 {% endblock %}

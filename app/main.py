@@ -24,9 +24,32 @@ Base.metadata.create_all(bind=engine)
 
 
 @app.get("/")
-def read_tasks(request: Request, db: Session = Depends(get_db_session)):
-    tasks = db.query(Task).order_by(Task.id.desc()).all()
-    return templates.TemplateResponse("index.html", {"request": request, "tasks": tasks})
+def read_tasks(
+    request: Request,
+    page: int = 1,
+    per_page: int = 5,
+    db: Session = Depends(get_db_session),
+):
+    total_tasks = db.query(Task).count()
+    tasks = (
+        db.query(Task)
+        .order_by(Task.id.desc())
+        .offset((page - 1) * per_page)
+        .limit(per_page)
+        .all()
+    )
+
+    total_pages = (total_tasks + per_page - 1) // per_page  # ceil division
+
+    return templates.TemplateResponse(
+        "index.html",
+        {
+            "request": request,
+            "tasks": tasks,
+            "page": page,
+            "total_pages": total_pages,
+        },
+    )
 
 
 @app.get("/create")

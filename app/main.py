@@ -4,8 +4,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-from database import Base, engine, get_db_session
-from models import Task
+from app.database import Base, engine, get_db_session
+from app.models import Task
 
 app = FastAPI()
 
